@@ -9,8 +9,8 @@ router.get("/", (req, res) => {
 //create new products
 router.post("/add", async (req, res) => {
     try {
-        const { name, catagory, price, description } = req.body
-        if (!name || !catagory || !price || !description) {
+        const { name, catagory, price, description,imgUrl } = req.body
+        if (!name || !catagory || !price || !description || !imgUrl) {
             console.log("Enter all fields properly");
             res.status(422).json("Enter all fields properly")
         } else {
@@ -70,8 +70,23 @@ try {
     const dbResponse=await productsModel.findByIdAndUpdate(_id,req.body,{new:true})
     res.status(200).json(dbResponse)
 } catch (error) {
-    res.status(400).json("Please try again")
+    res.status(400).json("Please try again Err: "+error)
 }
 });
+
+//delete by ID
+router.delete("/delete/:pId",async(req,res)=>{
+try {
+    const _id = req.params.pId
+    const dbResponse = await productsModel.findByIdAndDelete(_id)
+    if(dbResponse===null){
+        res.status(400).json("Data Not Found")
+    }else{
+        res.status(200).json(dbResponse)
+    }
+} catch (error) {
+    res.status(400).json("Please try again Err: "+error)
+}
+})
 
 module.exports=router;

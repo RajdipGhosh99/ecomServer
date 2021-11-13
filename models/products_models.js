@@ -18,7 +18,8 @@ const productScheme= new mongoose.Schema({
         required: true
     },
     imgUrl:{
-        type:String
+        type:String,
+        default :"default"
     }
 })
 

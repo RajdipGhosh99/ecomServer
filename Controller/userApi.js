@@ -25,11 +25,31 @@ router.post("/signup", async (req, res) => {
     }
 })
 
+//login
+router.get("/signin", async (req, res) => {
+    try {
+        const { email, password } = req.body
+        if (!email || !password) {
+            res.status(400).json("Enter fields properly")
+        } else {
+            dbResponse = await userModel.findOne({ email, password })
+            if (dbResponse) {
+                res.status(200).json(dbResponse)
+            } else {
+                res.status(400).json("Invalid Creadentials")
+            }
+        }
+
+    } catch (error) {
+        res.status(400).json("Invalid Creadentials")
+    }
+})
+
 //get profiles by Id
-router.get("/profile/:uId", async (req, res)=>{
+router.get("/profile/:uId", async (req, res) => {
     // console.log("running");
     try {
-        const _id=req.params.uId;
+        const _id = req.params.uId;
         const dbResponse = await userModel.findById(_id)
         res.status(200).json(dbResponse)
 
